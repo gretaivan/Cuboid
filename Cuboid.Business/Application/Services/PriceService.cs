@@ -13,16 +13,7 @@ public class PriceService
 
     public void Process(AddPriceRequest addPriceRequest, bool isFromTrader)
     {
-        if (isFromTrader)
-        {
-            if (string.IsNullOrEmpty(addPriceRequest.Broker)) throw new ArgumentNullException("Broker needs to be set");
-        }
-        else if (!string.IsNullOrEmpty(addPriceRequest.Broker))
-        {
-            throw new ArgumentException("Broker must not be set");
-        }
-
-        if (addPriceRequest.Value < 0) throw new ArgumentOutOfRangeException("Value must be > 0");
+        ValidatePriceRequest(addPriceRequest, isFromTrader);
 
         var price = ToPrice(addPriceRequest, isFromTrader);
         _dataStore.Store(price);
@@ -83,6 +74,19 @@ public class PriceService
                 }
             }
         }
+    }
+    private void ValidatePriceRequest(AddPriceRequest addPriceRequest, bool isFromTrader)
+    {
+        if (isFromTrader)
+        {
+            if (string.IsNullOrEmpty(addPriceRequest.Broker)) throw new ArgumentNullException("Broker needs to be set");
+        }
+        else if (!string.IsNullOrEmpty(addPriceRequest.Broker))
+        {
+            throw new ArgumentException("Broker must not be set");
+        }
+
+        if (addPriceRequest.Value < 0) throw new ArgumentOutOfRangeException("Value must be > 0");
     }
 
     public Price ToPrice(AddPriceRequest addPriceRequest, bool isFromTrader)
