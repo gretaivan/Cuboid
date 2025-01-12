@@ -18,6 +18,7 @@ public class PriceServiceTests
         };
         priceService.Process(addPriceRequest, true);
 
-        Assert.Equal(4, priceService.DownstreamService.SentMessages.Count);
+        var sentMessages = priceService.DownstreamService.GetSentMessages();
+        Assert.Equal(4, sentMessages.Count);
     }
 }

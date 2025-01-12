@@ -9,10 +9,14 @@ using System.Threading.Tasks;
 namespace Cuboid.Business.Infrastructure.Services;
 public class NotificationService : INotificationService
 {
-    public List<(string Recipient, PriceMessage Msg)> SentMessages { get; set; } = [];
+    public List<(string Recipient, PriceMessage Msg)> SentMessages { get; private set; } = [];
 
     public void Send(string user, PriceMessage priceMsg)
     {
         SentMessages.Add((user, priceMsg));
+    }
+    public List<(string Recipient, PriceMessage Msg)> GetSentMessages()
+    {
+        return SentMessages;
     }
 }

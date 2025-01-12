@@ -56,6 +56,5 @@ public class DataStore : IDataStore
     {
         // mimics a database query
         return new List<string> { "Trader1", "Trader2", "Trader3" };
-    }
-     
+    }     
 }

@@ -1,4 +1,5 @@
 ﻿using Cuboid.Business.Application.DTOs;
+using Cuboid.Business.Application.Interfaces;
 using Cuboid.Business.Domain.Entities;
 using Cuboid.Business.Infrastructure.Data;
 using Cuboid.Business.Infrastructure.Services;
@@ -7,9 +8,8 @@ namespace Cuboid.Business.Application.Services;
 
 public class PriceService
 {
-    private DataStore _dataStore = new DataStore();
-
-    public NotificationService DownstreamService { get; set; } = new();
+    private IDataStore _dataStore = new DataStore();
+    public INotificationService DownstreamService = new NotificationService();
 
     public void Process(AddPriceRequest addPriceRequest, bool isFromTrader)
     {

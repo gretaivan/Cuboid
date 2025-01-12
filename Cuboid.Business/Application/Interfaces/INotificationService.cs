@@ -7,8 +7,9 @@ using Cuboid.Business.Application.DTOs;
 
 namespace Cuboid.Business.Application.Interfaces
 {
-    internal interface INotificationService
-    { 
+    public interface INotificationService
+    {       
         void Send(string user, PriceMessage priceMsg);
+        List<(string Recipient, PriceMessage Msg)> GetSentMessages();
     }
 }
