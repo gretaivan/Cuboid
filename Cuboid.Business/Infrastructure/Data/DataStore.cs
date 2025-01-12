@@ -7,28 +7,34 @@ using Cuboid.Business.Application.Interfaces;
 using Cuboid.Business.Domain.Entities;
 
 namespace Cuboid.Business.Infrastructure.Data;
+
+/// <summary>
+/// Provides storage and management for Price Entities
+/// </summary>
 public class DataStore : IDataStore
 {
+
+    /// <summary>
+    /// Retrieves traders and a broker associated with the price
+    /// </summary>
+    /// <param name="price"></param>
+    /// <param name="isFromTrader"></param>
+    /// <returns>An enumerable of users associated to the price</returns>
     public IEnumerable<string> GetUsers(Price price, bool isFromTrader) 
     {
         if (isFromTrader)
         {
-            yield return price.Broker;
-        }
-
-        if (isFromTrader)
-        {
-            //Return all traders
-            yield return "Trader1";
-            yield return "Trader2";
-            yield return "Trader3";
+            yield return price.Broker;                   
         }
         else
         {
-            yield return price.Submitter;
-            yield return "Trader1";
-            yield return "Trader2";
-            yield return "Trader3";
+            yield return price.Submitter;            
+        }
+
+        // Return all traders
+        foreach (var trader in GetAllTraders())
+        {
+            yield return trader;
         }
     }
 
@@ -41,4 +47,15 @@ public class DataStore : IDataStore
     public void Cancel(Price price)
     {
     }
+
+    /// <summary>
+    /// Gets all traders
+    /// </summary>
+    /// <returns>An enumerable of traders</returns>
+    private IEnumerable<string> GetAllTraders()
+    {
+        // mimics a database query
+        return new List<string> { "Trader1", "Trader2", "Trader3" };
+    }
+     
 }
