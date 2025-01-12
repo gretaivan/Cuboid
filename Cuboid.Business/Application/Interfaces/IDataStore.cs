@@ -7,10 +7,12 @@ using Cuboid.Business.Domain.Entities;
 
 namespace Cuboid.Business.Application.Interfaces
 {
-    internal interface IDataStore
+    public interface IDataStore
     {
         IEnumerable<string> GetUsers(Price price, bool isFromTrader);
         void Store(Price price);
-        void Cancel(Price price);
+        Price GetPriceById(int priceId);
+        void Cancel(int priceId, Price price);
+        IEnumerable<string> GetAllTraders();
     }
 }

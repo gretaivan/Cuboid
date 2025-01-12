@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,9 @@ namespace Cuboid.Business.Infrastructure.Data;
 /// </summary>
 public class DataStore : IDataStore
 {
+
+    private readonly Dictionary<int, Price> _prices = new();
+    private int _priceId = 0;
 
     /// <summary>
     /// Retrieves traders and a broker associated with the price
@@ -40,19 +44,33 @@ public class DataStore : IDataStore
 
     public void Store(Price price)
     {
-        //No storage is done currently. Please only add storage (in memory) if it helps
-        //with your solution
+        _prices[_priceId] = price;
+        _priceId++; 
     }
 
-    public void Cancel(Price price)
+    public Price GetPriceById(int priceId)
     {
+        _prices.TryGetValue(priceId, out var price);
+        return price; 
+    }
+
+    public void Cancel(int priceId, Price price)
+    {
+        if(_prices.ContainsKey(priceId))
+        {
+            _prices[priceId] = price;             
+        }
+        else
+        {
+            throw new KeyNotFoundException("Price not found");            
+        }
     }
 
     /// <summary>
     /// Gets all traders
     /// </summary>
     /// <returns>An enumerable of traders</returns>
-    private IEnumerable<string> GetAllTraders()
+    public IEnumerable<string> GetAllTraders()
     {
         // mimics a database query
         return new List<string> { "Trader1", "Trader2", "Trader3" };
