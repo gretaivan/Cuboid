@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cuboid.Business.API;
+namespace Cuboid.Business.Application.DTOs;
 public class AddPriceRequest
 {
     public int Value { get; set; }

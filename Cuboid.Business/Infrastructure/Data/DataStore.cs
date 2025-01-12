@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cuboid.Business.Application.Interfaces;
+using Cuboid.Business.Domain.Entities;
 
-namespace Cuboid.Business;
-public class DataStore
+namespace Cuboid.Business.Infrastructure.Data;
+public class DataStore : IDataStore
 {
-    internal IEnumerable<string> GetUsers(Price price, bool isFromTrader)
+    public IEnumerable<string> GetUsers(Price price, bool isFromTrader) 
     {
         if (isFromTrader)
         {
@@ -30,13 +32,13 @@ public class DataStore
         }
     }
 
-    internal void Store(Price price)
+    public void Store(Price price)
     {
         //No storage is done currently. Please only add storage (in memory) if it helps
         //with your solution
     }
 
-    internal void Cancel(Price price)
+    public void Cancel(Price price)
     {
     }
 }

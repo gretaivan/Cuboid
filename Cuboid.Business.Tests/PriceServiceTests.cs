@@ -1,4 +1,5 @@
-using Cuboid.Business.API;
+using Cuboid.Business.Application.DTOs;
+using Cuboid.Business.Application.Services;
 
 namespace Cuboid.Business.Tests;
 

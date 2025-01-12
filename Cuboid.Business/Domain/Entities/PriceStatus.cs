@@ -1,4 +1,4 @@
-﻿namespace Cuboid.Business;
+﻿namespace Cuboid.Business.Domain.Entities;
 
 public enum PriceStatus
 {
