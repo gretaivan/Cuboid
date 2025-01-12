@@ -8,21 +8,21 @@ namespace Cuboid.Business.Application.Services;
 
 public class PriceService
 {
-    private IDataStore _dataStore = new DataStore();
-    public INotificationService DownstreamService = new NotificationService();
+    private readonly IDataStore _dataStore = new DataStore();
+    private readonly INotificationService _notificationService = new NotificationService();
 
     public void Process(AddPriceRequest addPriceRequest, bool isFromTrader)
     {
         if (isFromTrader)
         {
-            if (string.IsNullOrEmpty(addPriceRequest.Broker)) throw new Exception("Broker needs to be set");
+            if (string.IsNullOrEmpty(addPriceRequest.Broker)) throw new ArgumentNullException("Broker needs to be set");
         }
         else if (!string.IsNullOrEmpty(addPriceRequest.Broker))
         {
-            throw new Exception("Broker must not be set");
+            throw new ArgumentException("Broker must not be set");
         }
 
-        if (addPriceRequest.Value < 0) throw new Exception("Value must be > 0");
+        if (addPriceRequest.Value < 0) throw new ArgumentOutOfRangeException("Value must be > 0");
 
         var price = ToPrice(addPriceRequest, isFromTrader);
         _dataStore.Store(price);
@@ -48,13 +48,13 @@ public class PriceService
             {
                 if (x)
                 {
-                    DownstreamService.Send(user, priceMsg2);
+                    _notificationService.Send(user, priceMsg2);
                     x = false;
                 }
                 else
                 {
                     priceMsg1.Broker = price.Submitter == user ? price.Broker : default;
-                    DownstreamService.Send(user, priceMsg1);
+                    _notificationService.Send(user, priceMsg1);
                 }
             }
         }
@@ -70,7 +70,7 @@ public class PriceService
                         Value = price.Value,
                         Trader = price.Trader,
                     };
-                    DownstreamService.Send(user, priceMsg);
+                    _notificationService.Send(user, priceMsg);
                 }
                 else
                 {
@@ -79,7 +79,7 @@ public class PriceService
                         Id = price.Id,
                         Value = price.Value,
                     };
-                    DownstreamService.Send(user, priceMsg);
+                    _notificationService.Send(user, priceMsg);
                 }
             }
         }
